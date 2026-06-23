@@ -10,12 +10,27 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:5174",
-      "http://localhost:5175",
-      "https://automated-chat-app.vercel.app",
-    ],
+    origin: function (origin, callback) {
+      const allowedOrigins = [
+        "http://localhost:5173",
+        "http://localhost:5174",
+        "http://localhost:5175",
+        "https://automated-chat-app.vercel.app",
+        "https://chatty-ai-dusky.vercel.app",
+      ];
+
+      // Allow no-origin requests (Postman, mobile, etc.)
+      if (!origin) return callback(null, true);
+
+      // Allow any *.vercel.app preview URL
+      if (allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true, // ✅ THIS was the missing line causing your error
+    methods: ["GET", "POST"],
   },
 });
 
