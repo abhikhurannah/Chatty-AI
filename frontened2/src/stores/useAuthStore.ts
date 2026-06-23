@@ -19,7 +19,7 @@ interface AuthState {
   onlineUsers: string[];
   socket: Socket | null;
   isCheckingAuth: boolean;
-  
+
   checkAuth: () => Promise<void>;
   signup: (data: { email: string; password: string; fullname: string }) => Promise<void>;
   login: (data: { email: string; password: string }) => Promise<void>;
@@ -29,26 +29,25 @@ interface AuthState {
   disconnectSocket: () => void;
 }
 
-// Generic API request function
 async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const url = `${API_BASE_URL}${endpoint}`;
-  
+
   const config: RequestInit = {
     headers: {
       'Content-Type': 'application/json',
       ...options.headers,
     },
-    credentials: 'include',
+    credentials: 'include', // sends cookies cross-origin
     ...options,
   };
 
   const response = await fetch(url, config);
-  
+
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({ message: 'Request failed' }));
     throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
   }
-  
+
   return await response.json();
 }
 
@@ -85,7 +84,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       toast.success("Account created successfully");
       get().connectSocket();
     } catch (error) {
-      console.log("Error in signup:", error);
       toast.error(error instanceof Error ? error.message : "Failed to create account");
     } finally {
       set({ isSigningUp: false });
@@ -103,7 +101,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       toast.success("Logged in successfully");
       get().connectSocket();
     } catch (error) {
-      console.log("Error in login:", error);
       toast.error(error instanceof Error ? error.message : "Failed to login");
     } finally {
       set({ isLoggingIn: false });
@@ -112,12 +109,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   logout: async () => {
     try {
-      await apiRequest('/auth/logout', { method: 'POST' });
+      await apiRequest('/api/auth/logout', { method: 'POST' }); // ✅ fixed: was /auth/logout
       set({ authUser: null });
       toast.success("Logged out successfully");
       get().disconnectSocket();
     } catch (error) {
-      console.log("Error in logout:", error);
       toast.error("Failed to logout");
     }
   },
@@ -132,7 +128,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       set({ authUser: user });
       toast.success("Profile updated successfully");
     } catch (error) {
-      console.log("Error in updateProfile:", error);
       toast.error("Failed to update profile");
     } finally {
       set({ isUpdatingProfile: false });
@@ -144,9 +139,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     if (!authUser || get().socket?.connected) return;
 
     const socket = io(API_BASE_URL, {
-      query: {
-        userId: authUser._id,
-      },
+      query: { userId: authUser._id },
+      withCredentials: true, // ✅ FIXED: required for cross-origin socket with cookies
     });
 
     socket.connect();
@@ -158,9 +152,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   disconnectSocket: () => {
-    if (get().socket?.connected) {
-      get().socket?.disconnect();
-    }
+    if (get().socket?.connected) get().socket?.disconnect();
     set({ socket: null });
   },
 }));
