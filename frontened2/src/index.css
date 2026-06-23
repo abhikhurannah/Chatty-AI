@@ -486,3 +486,295 @@ All colors MUST be HSL.
     transform: scale(1);
   }
 }
+/* =============================================
+   CUSTOM THEMES — applied via <html class="theme-X">
+   Each theme overrides the CSS variables defined in :root / .dark
+   ============================================= */
+
+/* ---------- Midnight Purple ---------- */
+.theme-midnight {
+  --background: 240 30% 8%;
+  --foreground: 260 20% 95%;
+  --card: 245 30% 11%;
+  --card-foreground: 260 20% 95%;
+  --popover: 245 30% 11%;
+  --popover-foreground: 260 20% 95%;
+  --primary: 262 83% 65%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 320 60% 55%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 245 25% 16%;
+  --muted-foreground: 250 15% 65%;
+  --accent: 262 60% 40%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 62.8% 40%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 245 25% 20%;
+  --input: 245 25% 18%;
+  --ring: 262 83% 65%;
+
+  --gradient-primary: linear-gradient(135deg, hsl(262, 83%, 55%), hsl(320, 60%, 50%));
+  --gradient-bg: linear-gradient(135deg, hsl(240, 30%, 8%), hsl(245, 40%, 10%));
+  --gradient-navbar: linear-gradient(90deg, hsl(262, 70%, 30%), hsl(245, 70%, 35%));
+  --glass-bg: hsla(245, 30%, 10%, 0.85);
+  --glass-border: hsla(262, 40%, 30%, 0.5);
+  --shadow-soft: 0 8px 32px hsla(262, 83%, 55%, 0.25);
+  --shadow-bubble: 0 4px 16px hsla(320, 60%, 55%, 0.3);
+  --chat-bg: linear-gradient(135deg, hsl(240, 30%, 8%), hsl(262, 40%, 12%));
+  --sidebar-bg: linear-gradient(135deg, hsl(245, 35%, 10%), hsl(240, 30%, 8%));
+  --text-primary: hsl(260, 20%, 95%);
+  --text-secondary: hsl(255, 15%, 80%);
+  --text-muted: hsl(250, 15%, 60%);
+}
+
+/* ---------- Sunset Glow ---------- */
+.theme-sunset {
+  --background: 20 30% 8%;
+  --foreground: 30 20% 95%;
+  --card: 20 30% 11%;
+  --card-foreground: 30 20% 95%;
+  --popover: 20 30% 11%;
+  --popover-foreground: 30 20% 95%;
+  --primary: 25 95% 60%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 330 70% 60%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 20 25% 16%;
+  --muted-foreground: 25 15% 65%;
+  --accent: 270 60% 50%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 62.8% 40%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 20 25% 20%;
+  --input: 20 25% 18%;
+  --ring: 25 95% 60%;
+
+  --gradient-primary: linear-gradient(135deg, hsl(25, 95%, 55%), hsl(330, 70%, 55%));
+  --gradient-bg: linear-gradient(135deg, hsl(20, 30%, 8%), hsl(270, 30%, 12%));
+  --gradient-navbar: linear-gradient(90deg, hsl(25, 85%, 40%), hsl(330, 60%, 45%));
+  --glass-bg: hsla(20, 30%, 10%, 0.85);
+  --glass-border: hsla(25, 40%, 30%, 0.5);
+  --shadow-soft: 0 8px 32px hsla(25, 95%, 55%, 0.25);
+  --shadow-bubble: 0 4px 16px hsla(330, 70%, 55%, 0.3);
+  --chat-bg: linear-gradient(135deg, hsl(20, 30%, 8%), hsl(270, 30%, 12%));
+  --sidebar-bg: linear-gradient(135deg, hsl(20, 30%, 10%), hsl(20, 25%, 8%));
+  --text-primary: hsl(30, 20%, 95%);
+  --text-secondary: hsl(25, 15%, 80%);
+  --text-muted: hsl(25, 15%, 60%);
+}
+
+/* ---------- Ocean Breeze ---------- */
+.theme-ocean {
+  --background: 200 40% 7%;
+  --foreground: 195 20% 95%;
+  --card: 200 38% 10%;
+  --card-foreground: 195 20% 95%;
+  --popover: 200 38% 10%;
+  --popover-foreground: 195 20% 95%;
+  --primary: 188 80% 50%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 220 70% 55%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 200 30% 15%;
+  --muted-foreground: 200 15% 65%;
+  --accent: 240 60% 50%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 62.8% 40%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 200 25% 18%;
+  --input: 200 25% 16%;
+  --ring: 188 80% 50%;
+
+  --gradient-primary: linear-gradient(135deg, hsl(188, 80%, 45%), hsl(220, 70%, 50%));
+  --gradient-bg: linear-gradient(135deg, hsl(200, 40%, 7%), hsl(240, 40%, 10%));
+  --gradient-navbar: linear-gradient(90deg, hsl(188, 70%, 30%), hsl(220, 60%, 35%));
+  --glass-bg: hsla(200, 40%, 8%, 0.85);
+  --glass-border: hsla(188, 40%, 25%, 0.5);
+  --shadow-soft: 0 8px 32px hsla(188, 80%, 45%, 0.25);
+  --shadow-bubble: 0 4px 16px hsla(220, 70%, 50%, 0.3);
+  --chat-bg: linear-gradient(135deg, hsl(200, 40%, 7%), hsl(240, 40%, 10%));
+  --sidebar-bg: linear-gradient(135deg, hsl(200, 38%, 9%), hsl(200, 35%, 7%));
+  --text-primary: hsl(195, 20%, 95%);
+  --text-secondary: hsl(200, 15%, 80%);
+  --text-muted: hsl(200, 15%, 60%);
+}
+
+/* ---------- Forest Night ---------- */
+.theme-forest {
+  --background: 150 30% 6%;
+  --foreground: 140 15% 93%;
+  --card: 148 28% 9%;
+  --card-foreground: 140 15% 93%;
+  --popover: 148 28% 9%;
+  --popover-foreground: 140 15% 93%;
+  --primary: 152 60% 45%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 168 55% 42%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 150 22% 14%;
+  --muted-foreground: 148 12% 62%;
+  --accent: 152 45% 30%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 62.8% 40%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 150 22% 17%;
+  --input: 150 22% 15%;
+  --ring: 152 60% 45%;
+
+  --gradient-primary: linear-gradient(135deg, hsl(152, 60%, 40%), hsl(168, 55%, 38%));
+  --gradient-bg: linear-gradient(135deg, hsl(150, 30%, 6%), hsl(168, 35%, 8%));
+  --gradient-navbar: linear-gradient(90deg, hsl(152, 50%, 22%), hsl(168, 45%, 25%));
+  --glass-bg: hsla(150, 30%, 7%, 0.85);
+  --glass-border: hsla(152, 35%, 20%, 0.5);
+  --shadow-soft: 0 8px 32px hsla(152, 60%, 40%, 0.22);
+  --shadow-bubble: 0 4px 16px hsla(168, 55%, 40%, 0.28);
+  --chat-bg: linear-gradient(135deg, hsl(150, 30%, 6%), hsl(168, 35%, 9%));
+  --sidebar-bg: linear-gradient(135deg, hsl(148, 28%, 8%), hsl(150, 25%, 6%));
+  --text-primary: hsl(140, 15%, 93%);
+  --text-secondary: hsl(145, 12%, 78%);
+  --text-muted: hsl(148, 12%, 58%);
+}
+
+/* ---------- Candy Pop ---------- */
+.theme-candy {
+  --background: 335 30% 8%;
+  --foreground: 330 15% 94%;
+  --card: 335 28% 11%;
+  --card-foreground: 330 15% 94%;
+  --popover: 335 28% 11%;
+  --popover-foreground: 330 15% 94%;
+  --primary: 330 80% 62%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 350 75% 58%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 335 22% 16%;
+  --muted-foreground: 330 12% 64%;
+  --accent: 315 60% 45%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 62.8% 40%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 335 22% 20%;
+  --input: 335 22% 18%;
+  --ring: 330 80% 62%;
+
+  --gradient-primary: linear-gradient(135deg, hsl(330, 80%, 58%), hsl(350, 75%, 54%));
+  --gradient-bg: linear-gradient(135deg, hsl(335, 30%, 8%), hsl(315, 30%, 11%));
+  --gradient-navbar: linear-gradient(90deg, hsl(330, 65%, 32%), hsl(350, 60%, 36%));
+  --glass-bg: hsla(335, 28%, 9%, 0.85);
+  --glass-border: hsla(330, 40%, 28%, 0.5);
+  --shadow-soft: 0 8px 32px hsla(330, 80%, 55%, 0.25);
+  --shadow-bubble: 0 4px 16px hsla(350, 75%, 55%, 0.3);
+  --chat-bg: linear-gradient(135deg, hsl(335, 30%, 8%), hsl(315, 30%, 11%));
+  --sidebar-bg: linear-gradient(135deg, hsl(335, 28%, 10%), hsl(335, 25%, 8%));
+  --text-primary: hsl(330, 15%, 94%);
+  --text-secondary: hsl(330, 12%, 80%);
+  --text-muted: hsl(330, 12%, 60%);
+}
+
+/* ---------- Neon Dreams ---------- */
+.theme-neon {
+  --background: 270 40% 5%;
+  --foreground: 280 15% 95%;
+  --card: 270 38% 8%;
+  --card-foreground: 280 15% 95%;
+  --popover: 270 38% 8%;
+  --popover-foreground: 280 15% 95%;
+  --primary: 280 85% 65%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 320 80% 62%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 270 28% 13%;
+  --muted-foreground: 275 14% 65%;
+  --accent: 240 70% 60%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 62.8% 40%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 270 28% 17%;
+  --input: 270 28% 15%;
+  --ring: 280 85% 65%;
+
+  --gradient-primary: linear-gradient(135deg, hsl(280, 85%, 60%), hsl(320, 80%, 58%));
+  --gradient-bg: linear-gradient(135deg, hsl(270, 40%, 5%), hsl(240, 40%, 8%));
+  --gradient-navbar: linear-gradient(90deg, hsl(280, 70%, 28%), hsl(240, 65%, 32%));
+  --glass-bg: hsla(270, 40%, 6%, 0.88);
+  --glass-border: hsla(280, 50%, 30%, 0.5);
+  --shadow-soft: 0 8px 32px hsla(280, 85%, 60%, 0.3);
+  --shadow-bubble: 0 4px 16px hsla(320, 80%, 58%, 0.35);
+  --chat-bg: linear-gradient(135deg, hsl(270, 40%, 5%), hsl(240, 40%, 8%));
+  --sidebar-bg: linear-gradient(135deg, hsl(270, 38%, 7%), hsl(270, 35%, 5%));
+  --text-primary: hsl(280, 15%, 95%);
+  --text-secondary: hsl(275, 12%, 82%);
+  --text-muted: hsl(275, 12%, 62%);
+}
+
+/* ---------- Autumn Leaves ---------- */
+.theme-autumn {
+  --background: 20 35% 7%;
+  --foreground: 25 18% 93%;
+  --card: 22 32% 10%;
+  --card-foreground: 25 18% 93%;
+  --popover: 22 32% 10%;
+  --popover-foreground: 25 18% 93%;
+  --primary: 38 90% 52%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 10 75% 50%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 22 25% 15%;
+  --muted-foreground: 22 14% 62%;
+  --accent: 28 65% 40%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 62.8% 40%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 22 25% 18%;
+  --input: 22 25% 16%;
+  --ring: 38 90% 52%;
+
+  --gradient-primary: linear-gradient(135deg, hsl(38, 90%, 47%), hsl(10, 75%, 46%));
+  --gradient-bg: linear-gradient(135deg, hsl(20, 35%, 7%), hsl(10, 35%, 9%));
+  --gradient-navbar: linear-gradient(90deg, hsl(38, 75%, 28%), hsl(10, 60%, 32%));
+  --glass-bg: hsla(22, 32%, 8%, 0.85);
+  --glass-border: hsla(38, 40%, 25%, 0.5);
+  --shadow-soft: 0 8px 32px hsla(38, 90%, 47%, 0.22);
+  --shadow-bubble: 0 4px 16px hsla(10, 75%, 46%, 0.28);
+  --chat-bg: linear-gradient(135deg, hsl(20, 35%, 7%), hsl(10, 35%, 9%));
+  --sidebar-bg: linear-gradient(135deg, hsl(22, 32%, 9%), hsl(20, 28%, 7%));
+  --text-primary: hsl(25, 18%, 93%);
+  --text-secondary: hsl(22, 14%, 79%);
+  --text-muted: hsl(22, 14%, 59%);
+}
+
+/* ---------- Mocha Latte ---------- */
+.theme-mocha {
+  --background: 30 25% 7%;
+  --foreground: 35 15% 92%;
+  --card: 30 23% 10%;
+  --card-foreground: 35 15% 92%;
+  --popover: 30 23% 10%;
+  --popover-foreground: 35 15% 92%;
+  --primary: 30 60% 40%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 28 50% 35%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 30 18% 14%;
+  --muted-foreground: 30 10% 60%;
+  --accent: 30 45% 30%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 62.8% 40%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 30 18% 17%;
+  --input: 30 18% 15%;
+  --ring: 30 60% 40%;
+
+  --gradient-primary: linear-gradient(135deg, hsl(30, 60%, 38%), hsl(28, 50%, 32%));
+  --gradient-bg: linear-gradient(135deg, hsl(30, 25%, 7%), hsl(28, 20%, 9%));
+  --gradient-navbar: linear-gradient(90deg, hsl(30, 50%, 20%), hsl(28, 45%, 22%));
+  --glass-bg: hsla(30, 23%, 8%, 0.85);
+  --glass-border: hsla(30, 35%, 22%, 0.5);
+  --shadow-soft: 0 8px 32px hsla(30, 60%, 35%, 0.2);
+  --shadow-bubble: 0 4px 16px hsla(28, 50%, 32%, 0.26);
+  --chat-bg: linear-gradient(135deg, hsl(30, 25%, 7%), hsl(28, 20%, 9%));
+  --sidebar-bg: linear-gradient(135deg, hsl(30, 23%, 9%), hsl(30, 20%, 7%));
+  --text-primary: hsl(35, 15%, 92%);
+  --text-secondary: hsl(30, 10%, 77%);
+  --text-muted: hsl(30, 10%, 57%);
+}

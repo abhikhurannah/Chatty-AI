@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuthStore } from "@/stores/useAuthStore";
+import { useThemeStore } from "@/stores/useThemeStore";
 import { AuthPage } from "@/components/AuthPage";
 import Index from "./pages/Index";
 import ProfilePage from "./pages/ProfilePage";
@@ -10,10 +11,16 @@ import { Toaster } from "react-hot-toast";
 
 const App = () => {
   const { authUser, isCheckingAuth, checkAuth } = useAuthStore();
+  const { appTheme, setAppTheme } = useThemeStore();
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
+
+  // Re-apply saved theme class on every mount/refresh
+  useEffect(() => {
+    setAppTheme(appTheme);
+  }, []);
 
   if (isCheckingAuth) {
     return (
@@ -35,19 +42,18 @@ const App = () => {
     );
   }
 
-  // If user is not authenticated, show auth page
   if (!authUser) {
     return (
       <>
         <AuthPage />
-        <Toaster 
+        <Toaster
           position="top-center"
           toastOptions={{
             style: {
-              background: 'rgba(15, 23, 42, 0.9)',
-              color: '#fff',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              backdropFilter: 'blur(10px)',
+              background: "rgba(15, 23, 42, 0.9)",
+              color: "#fff",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
+              backdropFilter: "blur(10px)",
             },
           }}
         />
@@ -55,7 +61,6 @@ const App = () => {
     );
   }
 
-  // If user is authenticated, show main app
   return (
     <>
       <Routes>
@@ -65,14 +70,14 @@ const App = () => {
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <Toaster 
+      <Toaster
         position="top-center"
         toastOptions={{
           style: {
-            background: 'rgba(15, 23, 42, 0.9)',
-            color: '#fff',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(10px)',
+            background: "rgba(15, 23, 42, 0.9)",
+            color: "#fff",
+            border: "1px solid rgba(255, 255, 255, 0.1)",
+            backdropFilter: "blur(10px)",
           },
         }}
       />
