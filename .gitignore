@@ -1,0 +1,59 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*/.env
+
+# Build outputs
+dist/
+build/
+*/dist/
+*/build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+coverage/
+*.test.js
+*.test.ts
+*.test.tsx
+test-*.js
+*test*.js
+*Test*.tsx
+*Test*.ts
+
+# Documentation (if you want to ignore them)
+*.md
+!README.md
+
+# Temporary files
+.cache/
+*.bak
+*.tmp
+*.temp
+cookies.txt
+
+# Development artifacts
+*.orig
+*.rej

@@ -1,0 +1,488 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 222 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 84% 4.9%;
+
+    --primary: 262 83% 58%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47.4% 11.2%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 262 83% 58%;
+
+    --radius: 0.75rem;
+
+    /* Light theme - Ocean/Teal colors */
+    --gradient-primary: linear-gradient(135deg, hsl(180, 83%, 40%), hsl(180, 76%, 50%));
+    --gradient-bg: linear-gradient(135deg, hsl(210, 40%, 98%), hsl(180, 30%, 96%));
+    --gradient-navbar: linear-gradient(90deg, hsl(180, 83%, 40%), hsl(180, 70%, 45%));
+    --glass-bg: hsla(210, 40%, 98%, 0.85);
+    --glass-border: hsla(180, 20%, 85%, 0.5);
+    --shadow-soft: 0 8px 32px hsla(180, 83%, 40%, 0.15);
+    --shadow-bubble: 0 4px 16px hsla(180, 76%, 50%, 0.25);
+    
+    --bubble-1: 180 83% 45%;
+    --bubble-2: 262 83% 58%;
+    --bubble-3: 24 95% 53%;
+    --bubble-4: 200 85% 48%;
+    --bubble-5: 335 78% 42%;
+    --bubble-6: 45 93% 47%;
+
+    /* Light theme chat colors */
+    --chat-bg: linear-gradient(135deg, hsl(210, 40%, 98%), hsl(180, 20%, 95%));
+    --sidebar-bg: linear-gradient(135deg, hsl(180, 30%, 96%), hsl(210, 30%, 94%));
+    --text-primary: hsl(222, 84%, 4.9%);
+    --text-secondary: hsl(215, 25%, 27%);
+    --text-muted: hsl(215, 16%, 47%);
+  }
+
+  .dark {
+    --background: 222 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 263 70% 50.4%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 263 70% 50.4%;
+
+    /* Dark mode - Purple/Blue colors */
+    --gradient-primary: linear-gradient(135deg, hsl(263, 70%, 50%), hsl(245, 70%, 60%));
+    --gradient-bg: linear-gradient(135deg, hsl(222, 84%, 5%), hsl(245, 40%, 8%));
+    --gradient-navbar: linear-gradient(90deg, hsl(263, 70%, 35%), hsl(245, 70%, 40%));
+    --glass-bg: hsla(222, 84%, 5%, 0.85);
+    --glass-border: hsla(245, 30%, 25%, 0.5);
+    --shadow-soft: 0 8px 32px hsla(263, 70%, 50%, 0.2);
+    --shadow-bubble: 0 4px 16px hsla(245, 70%, 60%, 0.3);
+
+    --bubble-1: 263 70% 55%;
+    --bubble-2: 245 70% 60%;
+    --bubble-3: 24 95% 60%;
+    --bubble-4: 186 70% 55%;
+    --bubble-5: 335 78% 52%;
+    --bubble-6: 45 93% 57%;
+
+    /* Dark theme chat colors */
+    --chat-bg: linear-gradient(135deg, hsl(222, 84%, 5%), hsl(245, 40%, 8%));
+    --sidebar-bg: linear-gradient(135deg, hsl(245, 40%, 8%), hsl(222, 50%, 6%));
+    --text-primary: hsl(210, 40%, 98%);
+    --text-secondary: hsl(210, 30%, 85%);
+    --text-muted: hsl(215, 20%, 65%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    background: var(--gradient-bg);
+    min-height: 100vh;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .glass-effect {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-bubble {
+    box-shadow: var(--shadow-bubble);
+  }
+
+  @keyframes bounce-float {
+    0%, 100% {
+      transform: translateY(0px) translateX(0px) scale(1);
+    }
+    10% {
+      transform: translateY(-30px) translateX(15px) scale(1.05);
+    }
+    20% {
+      transform: translateY(-15px) translateX(-20px) scale(0.98);
+    }
+    30% {
+      transform: translateY(-40px) translateX(10px) scale(1.02);
+    }
+    40% {
+      transform: translateY(-5px) translateX(-15px) scale(0.96);
+    }
+    50% {
+      transform: translateY(-35px) translateX(20px) scale(1.03);
+    }
+    60% {
+      transform: translateY(-10px) translateX(-10px) scale(0.99);
+    }
+    70% {
+      transform: translateY(-45px) translateX(5px) scale(1.04);
+    }
+    80% {
+      transform: translateY(-20px) translateX(-25px) scale(0.97);
+    }
+    90% {
+      transform: translateY(-30px) translateX(12px) scale(1.01);
+    }
+  }
+
+  @keyframes bounce-float-alt {
+    0%, 100% {
+      transform: translateY(0px) translateX(0px) scale(1) rotate(0deg);
+    }
+    12% {
+      transform: translateY(-25px) translateX(-18px) scale(1.03) rotate(2deg);
+    }
+    25% {
+      transform: translateY(-40px) translateX(12px) scale(0.98) rotate(-2deg);
+    }
+    37% {
+      transform: translateY(-10px) translateX(-15px) scale(1.05) rotate(3deg);
+    }
+    50% {
+      transform: translateY(-35px) translateX(22px) scale(0.96) rotate(-1deg);
+    }
+    62% {
+      transform: translateY(-15px) translateX(-8px) scale(1.02) rotate(2deg);
+    }
+    75% {
+      transform: translateY(-42px) translateX(16px) scale(0.99) rotate(-3deg);
+    }
+    87% {
+      transform: translateY(-20px) translateX(-20px) scale(1.04) rotate(1deg);
+    }
+  }
+
+  .animate-bounce-float {
+    animation: bounce-float 8s ease-in-out infinite;
+  }
+
+  .animate-bounce-float-alt {
+    animation: bounce-float-alt 10s ease-in-out infinite;
+  }
+
+  @keyframes fadeInFloat {
+    from {
+      opacity: 0;
+      transform: translateY(30px) scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .animate-fade-in-float {
+    animation: fadeInFloat 0.6s ease-out forwards;
+  }
+
+  /* Additional smooth hover effects */
+  .bubble-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .bubble-hover:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Emoji Picker Custom Styles */
+  .EmojiPickerReact {
+    --epr-bg-color: transparent !important;
+    --epr-category-label-bg-color: transparent !important;
+    --epr-picker-border-color: transparent !important;
+    --epr-search-border-color: hsl(var(--border)) !important;
+    --epr-hover-bg-color: hsl(var(--muted)) !important;
+    --epr-focus-bg-color: hsl(var(--muted)) !important;
+  }
+
+  .dark .EmojiPickerReact {
+    --epr-text-color: hsl(var(--foreground)) !important;
+    --epr-category-label-bg-color: transparent !important;
+  }
+
+  .EmojiPickerReact .epr-search-container input {
+    background-color: hsl(var(--muted)) !important;
+    border: 1px solid hsl(var(--border)) !important;
+    border-radius: 0.5rem !important;
+    color: hsl(var(--foreground)) !important;
+  }
+
+  .EmojiPickerReact .epr-emoji-category-label {
+    background-color: hsl(var(--card)) !important;
+    backdrop-filter: blur(8px) !important;
+  }
+
+  .EmojiPickerReact button.epr-emoji {
+    transition: all 0.15s ease !important;
+  }
+
+  .EmojiPickerReact button.epr-emoji:hover {
+    transform: scale(1.2) !important;
+  }
+}
+
+
+/* Add this to your existing src/index.css file */
+
+/* Custom Scrollbar Styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground));
+}
+
+/* Animation for AI thinking dots */
+@keyframes ai-pulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.ai-thinking-dot {
+  animation: ai-pulse 1.5s ease-in-out infinite;
+}
+
+.ai-thinking-dot:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.ai-thinking-dot:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+/* Gradient text animation */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* Smooth transitions for AI components */
+.ai-component {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Badge glow effect */
+@keyframes badge-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(139, 92, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
+  }
+}
+
+.badge-glow {
+  animation: badge-glow 2s ease-in-out infinite;
+}
+
+/* Improved message bubble shadows */
+.message-bubble {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease;
+}
+
+.message-bubble:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* AI suggestion card hover effects */
+.ai-suggestion-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-suggestion-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(139, 92, 246, 0.1),
+    transparent
+  );
+  transform: rotate(45deg);
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+.ai-suggestion-card:hover::before {
+  opacity: 1;
+  animation: shimmer 1.5s ease-in-out;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+/* Tone selector button active state */
+.tone-button-active {
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.3);
+}
+
+/* Improved focus states for accessibility */
+.focus-ring:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Loading skeleton animation */
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted)) 25%,
+    hsl(var(--muted-foreground) / 0.1) 50%,
+    hsl(var(--muted)) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+/* Chatbot message animations */
+.chatbot-message-enter {
+  animation: messageSlideIn 0.3s ease-out;
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* AI analysis card styling */
+.analysis-card {
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.dark .analysis-card {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Progress bar custom styling */
+.progress-bar {
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Tooltip improvements */
+.tooltip {
+  animation: tooltipFadeIn 0.2s ease-out;
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
