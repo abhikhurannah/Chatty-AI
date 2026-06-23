@@ -4,27 +4,23 @@ export const generateToken = (userId, res) => {
   if (!userId) throw new Error('Invalid user ID');
   if (!process.env.JWT_SECRET) throw new Error('JWT secret is not set');
 
-  try {
-    const token = jwt.sign(
-      { userId: userId.toString() },
-      process.env.JWT_SECRET,
-      { expiresIn: '7d' }
-    );
+  const token = jwt.sign(
+    { userId: userId.toString() },
+    process.env.JWT_SECRET,
+    { expiresIn: '7d' }
+  );
 
-    const isProduction = process.env.NODE_ENV === 'production';
+  // Still set cookie for same-origin / future use
+  const isProduction = process.env.NODE_ENV === 'production';
+  res.cookie('jwt', token, {
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+    sameSite: isProduction ? 'none' : 'lax',
+    secure: isProduction,
+  });
 
-    // In production (cross-origin): sameSite=none + secure=true is REQUIRED for cookies to work
-    // In development (same origin): sameSite=strict is fine
-    res.cookie('jwt', token, {
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      httpOnly: true,
-      sameSite: isProduction ? 'none' : 'strict',
-      secure: isProduction, // MUST be true when sameSite=none
-      // Do NOT set domain at all — let the browser handle it
-    });
+  // Also expose token in response header so frontend can save it
+  res.setHeader('X-Auth-Token', token);
 
-    return token;
-  } catch (error) {
-    throw new Error(`Failed to generate token: ${error.message}`);
-  }
+  return token;
 };
