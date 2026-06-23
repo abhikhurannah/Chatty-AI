@@ -1,7 +1,13 @@
 import { create } from "zustand";
 import toast from "react-hot-toast";
+import { apiRequest as sharedApiRequest } from "@/lib/api"; // ✅ use shared utility
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+
+// Wrapper that prepends /api/chatbot to all AI endpoints
+async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+  return sharedApiRequest<T>(`/api/chatbot${endpoint}`, options);
+}
 
 export type ConversationTone = 'casual' | 'professional' | 'flirty' | 'friendly' | 'formal' | 'humorous';
 
@@ -52,20 +58,6 @@ interface AIState {
   setSelectedTone: (tone: ConversationTone) => void;
   setConversationContext: (context: ConversationContext) => void;
   clearChatbotMessages: () => void;
-}
-
-async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-  const url = `${API_BASE_URL}/api/chatbot${endpoint}`;
-  const response = await fetch(url, {
-    headers: { 'Content-Type': 'application/json', ...options.headers },
-    credentials: 'include',
-    ...options,
-  });
-  if (!response.ok) {
-    const err = await response.json().catch(() => ({ message: 'AI service error' }));
-    throw new Error(err.message || `HTTP ${response.status}`);
-  }
-  return response.json();
 }
 
 export const useAIStore = create<AIState>((set, get) => ({
