@@ -1,8 +1,7 @@
 import { create } from "zustand";
 import toast from "react-hot-toast";
 import { useAuthStore } from "./useAuthStore";
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+import { apiRequest } from "@/lib/api"; // ✅ shared utility — has Bearer token
 
 interface User {
   _id: string;
@@ -26,36 +25,13 @@ interface ChatState {
   selectedUser: User | null;
   isUsersLoading: boolean;
   isMessagesLoading: boolean;
-  
+
   setSelectedUser: (user: User | null) => void;
   getUsers: () => Promise<void>;
   getMessages: (userId: string) => Promise<void>;
   sendMessage: (messageData: { text?: string; image?: string }) => Promise<void>;
   subscribeToMessages: () => void;
   unsubscribeFromMessages: () => void;
-}
-
-// Generic API request function
-async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-  const url = `${API_BASE_URL}${endpoint}`;
-  
-  const config: RequestInit = {
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-    credentials: 'include',
-    ...options,
-  };
-
-  const response = await fetch(url, config);
-  
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({ message: 'Request failed' }));
-    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-  }
-  
-  return await response.json();
 }
 
 export const useChatStore = create<ChatState>((set, get) => ({
@@ -65,9 +41,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
   isUsersLoading: false,
   isMessagesLoading: false,
 
-  setSelectedUser: (user) => {
-    set({ selectedUser: user });
-  },
+  setSelectedUser: (user) => set({ selectedUser: user }),
 
   getUsers: async () => {
     set({ isUsersLoading: true });
@@ -98,12 +72,11 @@ export const useChatStore = create<ChatState>((set, get) => ({
   sendMessage: async (messageData) => {
     const { selectedUser, messages } = get();
     if (!selectedUser) return;
-
     try {
-      const newMessage = await apiRequest<Message>(`/api/messages/send/${selectedUser._id}`, {
-        method: 'POST',
-        body: JSON.stringify(messageData),
-      });
+      const newMessage = await apiRequest<Message>(
+        `/api/messages/send/${selectedUser._id}`,
+        { method: 'POST', body: JSON.stringify(messageData) }
+      );
       set({ messages: [...messages, newMessage] });
     } catch (error) {
       console.error("Error sending message:", error);
@@ -114,14 +87,11 @@ export const useChatStore = create<ChatState>((set, get) => ({
   subscribeToMessages: () => {
     const { selectedUser } = get();
     if (!selectedUser) return;
-
     const { socket } = useAuthStore.getState();
     if (!socket) return;
 
     socket.on("newMessage", (newMessage: Message) => {
-      const { selectedUser: currentSelectedUser } = get();
-      if (newMessage.senderId !== currentSelectedUser?._id) return;
-      
+      if (newMessage.senderId !== get().selectedUser?._id) return;
       set({ messages: [...get().messages, newMessage] });
     });
   },
@@ -129,7 +99,6 @@ export const useChatStore = create<ChatState>((set, get) => ({
   unsubscribeFromMessages: () => {
     const { socket } = useAuthStore.getState();
     if (!socket) return;
-    
     socket.off("newMessage");
   },
 }));

@@ -1,77 +1,51 @@
-// API configuration and utilities
+// Shared API utility — single source of truth for all authenticated requests
+// Both useAuthStore and useChatStore import from here
+
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+const TOKEN_KEY = 'chatty_auth_token';
 
-// Generic API request function
-async function apiRequest<T>(
-  endpoint: string,
-  options: RequestInit = {}
-): Promise<T> {
-  const url = `${API_BASE_URL}${endpoint}`;
-  
-  const config: RequestInit = {
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-    credentials: 'include', // Include cookies for authentication
-    ...options,
-  };
-
-  try {
-    const response = await fetch(url, config);
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    
-    return await response.json();
-  } catch (error) {
-    console.error('API request failed:', error);
-    throw error;
-  }
+export function saveToken(response: Response) {
+  const token = response.headers.get('X-Auth-Token');
+  if (token) localStorage.setItem(TOKEN_KEY, token);
 }
 
-// Auth API functions
-export const authAPI = {
-  login: (credentials: { email: string; password: string }): Promise<any> =>
-    apiRequest('/api/auth/login', {
-      method: 'POST',
-      body: JSON.stringify(credentials),
-    }),
-  
-  register: (userData: { email: string; password: string; fullname: string }): Promise<any> =>
-    apiRequest('/api/auth/signup', {
-      method: 'POST',
-      body: JSON.stringify(userData),
-    }),
-  
-  logout: (): Promise<any> =>
-    apiRequest('/api/auth/logout', {
-      method: 'POST',
-    }),
-  
-  checkAuth: (): Promise<any> =>
-    apiRequest('/api/auth/check'),
+export function getToken(): string | null {
+  return localStorage.getItem(TOKEN_KEY);
+}
 
-  updateProfile: (formData: FormData): Promise<any> =>
-    apiRequest('/api/auth/update-profile', {
-      method: 'PUT',
-      body: formData,
-      headers: {}, // Let browser set Content-Type for FormData
-    }),
-};
+export function clearToken() {
+  localStorage.removeItem(TOKEN_KEY);
+}
 
-// Messages API functions
-export const messagesAPI = {
-  getUsers: (): Promise<any> =>
-    apiRequest('/api/messages/users'),
-  
-  getMessages: (userId: string): Promise<any> =>
-    apiRequest(`/api/messages/${userId}`),
-  
-  sendMessage: (userId: string, messageData: { text?: string; image?: string }): Promise<any> =>
-    apiRequest(`/api/messages/send/${userId}`, {
-      method: 'POST',
-      body: JSON.stringify(messageData),
-    }),
-};
+export async function apiRequest<T>(
+  endpoint: string,
+  options: RequestInit = {},
+  persistToken = false
+): Promise<T> {
+  const url = `${API_BASE_URL}${endpoint}`;
+  const token = getToken();
+
+  const config: RequestInit = {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...options.headers,
+    },
+    credentials: 'include',
+  };
+
+  const response = await fetch(url, config);
+
+  // On login/signup responses, grab and save the token
+  if (persistToken) saveToken(response);
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({ message: 'Request failed' }));
+    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+  }
+
+  return response.json();
+}
+
+export { API_BASE_URL };

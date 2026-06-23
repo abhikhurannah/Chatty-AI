@@ -1,9 +1,7 @@
 import { create } from "zustand";
 import { io, Socket } from "socket.io-client";
 import toast from "react-hot-toast";
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
-const TOKEN_KEY = 'chatty_auth_token';
+import { apiRequest, clearToken, getToken, API_BASE_URL } from "@/lib/api";
 
 interface User {
   _id: string;
@@ -30,52 +28,6 @@ interface AuthState {
   disconnectSocket: () => void;
 }
 
-// Save token from response headers
-function saveToken(response: Response) {
-  const token = response.headers.get('X-Auth-Token');
-  if (token) {
-    localStorage.setItem(TOKEN_KEY, token);
-  }
-}
-
-// Get saved token
-function getToken(): string | null {
-  return localStorage.getItem(TOKEN_KEY);
-}
-
-// Clear saved token
-function clearToken() {
-  localStorage.removeItem(TOKEN_KEY);
-}
-
-async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-  const url = `${API_BASE_URL}${endpoint}`;
-  const token = getToken();
-
-  const config: RequestInit = {
-    headers: {
-      'Content-Type': 'application/json',
-      // Send token in Authorization header — works cross-origin always
-      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
-      ...options.headers,
-    },
-    credentials: 'include',
-    ...options,
-  };
-
-  const response = await fetch(url, config);
-
-  // Save token if backend returns one (login/signup)
-  saveToken(response);
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({ message: 'Request failed' }));
-    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-  }
-
-  return await response.json();
-}
-
 export const useAuthStore = create<AuthState>((set, get) => ({
   authUser: null,
   isSigningUp: false,
@@ -86,17 +38,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isCheckingAuth: true,
 
   checkAuth: async () => {
+    if (!getToken()) {
+      set({ authUser: null, isCheckingAuth: false });
+      return;
+    }
     try {
-      // If no token saved, skip the network call entirely
-      if (!getToken()) {
-        set({ authUser: null, isCheckingAuth: false });
-        return;
-      }
       const user = await apiRequest<User>('/api/auth/check');
       set({ authUser: user });
       get().connectSocket();
     } catch (error) {
-      console.log("Error in checkAuth:", error);
       clearToken();
       set({ authUser: null });
     } finally {
@@ -110,7 +60,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const user = await apiRequest<User>('/api/auth/signup', {
         method: 'POST',
         body: JSON.stringify(data),
-      });
+      }, true); // true = save token from response
       set({ authUser: user });
       toast.success("Account created successfully");
       get().connectSocket();
@@ -127,7 +77,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const user = await apiRequest<User>('/api/auth/login', {
         method: 'POST',
         body: JSON.stringify(data),
-      });
+      }, true); // true = save token from response
       set({ authUser: user });
       toast.success("Logged in successfully");
       get().connectSocket();
@@ -141,8 +91,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   logout: async () => {
     try {
       await apiRequest('/api/auth/logout', { method: 'POST' });
-    } catch (error) {
-      // continue logout even if request fails
+    } catch (_) {
+      // still clear local state even if request fails
     } finally {
       clearToken();
       set({ authUser: null });
@@ -171,12 +121,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     const { authUser } = get();
     if (!authUser || get().socket?.connected) return;
 
-    const token = getToken();
     const socket = io(API_BASE_URL, {
       query: { userId: authUser._id },
       withCredentials: true,
-      // Also pass token in socket auth for extra reliability
-      auth: { token },
+      auth: { token: getToken() },
     });
 
     socket.connect();
