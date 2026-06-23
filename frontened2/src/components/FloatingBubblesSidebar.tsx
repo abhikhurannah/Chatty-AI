@@ -6,6 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { useChatStore } from "@/stores/useChatStore";
 import { useAuthStore } from "@/stores/useAuthStore";
+import { Switch } from "@/components/ui/switch";
 
 interface User {
   _id: string;
@@ -129,15 +130,11 @@ export const FloatingBubblesSidebar = ({ onSelectContact, selectedContactId }: F
   return (
     <div className="h-full bg-card/30 backdrop-blur-sm border-r border-border flex flex-col">
       {/* Header */}
-      <div className="p-4 border-b border-border space-y-4">
+      <div className="p-4 border-b border-border space-y-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-              <MessageCircle className="h-5 w-5 text-primary-foreground" />
-            </div>
             <div>
-              <h2 className="text-lg font-semibold text-foreground">Messages</h2>
-              <p className="text-xs text-muted-foreground">{filteredAndSortedUsers.length} conversations</p>
+              <h2 className="text-lg font-semibold text-foreground"></h2>
             </div>
           </div>
         </div>
@@ -146,27 +143,21 @@ export const FloatingBubblesSidebar = ({ onSelectContact, selectedContactId }: F
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search conversations..."
+            placeholder={`Search from ${filteredAndSortedUsers.length} people...`}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-9 h-10 bg-background/50 border-border"
+            className="pl-9 h-9 bg-background/50 border-border"
           />
         </div>
 
         {/* Online Filter */}
-        <label className="flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-foreground transition-colors">
-          <div className="relative">
-            <input
-              type="checkbox"
-              checked={showOnlineOnly}
-              onChange={(e) => setShowOnlineOnly(e.target.checked)}
-              className="sr-only"
-            />
-            <div className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-colors ${showOnlineOnly ? 'bg-primary border-primary' : 'border-muted-foreground'}`}>
-              {showOnlineOnly && <Check className="w-3 h-3 text-primary-foreground" />}
-            </div>
-          </div>
+        <label htmlFor="online-only-switch" className="flex items-center justify-between cursor-pointer text-sm text-muted-foreground hover:text-foreground transition-colors pt-1">
           <span>Show online only</span>
+          <Switch
+            id="online-only-switch"
+            checked={showOnlineOnly}
+            onCheckedChange={setShowOnlineOnly}
+          />
         </label>
       </div>
 
