@@ -23,7 +23,7 @@ app.use(cors({
             "http://localhost:5175",
             "https://chatty-ai.vercel.app",
             "https://automated-chat-app.vercel.app",
-            "https://automated-chat-app-git-main-abhikhuranahs-projects.vercel.app"
+            "https://chatty-ai-dusky.vercel.app"
         ];
         
         // Allow requests with no origin (like mobile apps or Postman)
@@ -39,7 +39,7 @@ app.use(cors({
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-    exposedHeaders: ['Set-Cookie'],
+    exposedHeaders: ['Set-Cookie', 'X-Auth-Token'],
     maxAge: 86400 // 24 hours
 }));
 
