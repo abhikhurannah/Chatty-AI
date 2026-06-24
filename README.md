@@ -16,6 +16,31 @@
 
 ---
 
+## 📸 Screenshots
+
+### Main Chat Interface — Typing Autocomplete (Quick Complete)
+![Main Chat Interface](./Screenshots/main_interface.png)
+
+### AI Chatbot Dialog — Flirty Tone
+![AI Chatbot Dialog](./Screenshots/chatbot_dialog.png)
+
+### AI Reply Suggestions Panel — Flirty Tone with Confidence Scores
+![AI Reply Suggestions](./Screenshots/ai_reply_sugg_panel.png)
+
+### Settings Panel — Light/Dark Mode + Color Theme Picker
+![Settings Panel](./Screenshots/settings.png)
+
+### Profile Page — Avatar Upload + Account Details
+![Profile Page](./Screenshots/profile.png)
+
+### Theme Picker Page — Live Chat Preview
+![Theme Picker](./Screenshots/themes.png)
+
+### Conversation Analysis Modal — Sentiment, Topics & AI Suggestions
+![Conversation Analysis](./Screenshots/analysis.png)
+
+---
+
 ## 📐 High-Level Architecture
 
 ```
@@ -214,6 +239,7 @@ The `AIService` class encapsulates all Gemini interactions. It uses `axios` to c
 ---
 
 ### Feature 1: Reply Suggestions
+![AI Reply Suggestions](./Screenshots/Screenshot%202026-06-24%20at%201.20.35%20PM.png)
 
 **Endpoint:** `POST /api/chatbot/suggestions/reply`
 **Socket event:** `requestReplySuggestions`
@@ -234,6 +260,7 @@ How it works:
 ---
 
 ### Feature 2: Typing Autocomplete
+![Typing Autocomplete](./Screenshots/Screenshot%202026-06-24%20at%201.19.46%20PM.png)
 
 **Endpoint:** `POST /api/chatbot/suggestions/typing`
 **Trigger:** User types 3+ characters, debounced at 600ms
@@ -251,6 +278,7 @@ How it works:
 ---
 
 ### Feature 3: Conversation Analysis
+![Conversation Analysis](./Screenshots/analysis.png)
 
 **Endpoint:** `POST /api/chatbot/analyze/:receiverId`
 
@@ -275,6 +303,7 @@ How it works:
 ---
 
 ### Feature 4: AI Chatbot
+![AI Chatbot](./Screenshots/chatbot_dialog.png)
 
 **Endpoint:** `POST /api/chatbot/chat`
 
@@ -317,6 +346,8 @@ A global `isAIEnabled` boolean in `useAIStore` gates all AI features. The toggle
 ---
 
 ## 🎨 Theme System
+![Theme Picker](./Screenshots/Screenshot%202026-06-24%20at%201.22.18%20PM.png)
+![Settings Themes](./Screenshots/Screenshot%202026-06-24%20at%201.20.58%20PM.png)
 
 ### Implementation: CSS Variables + Tailwind + Zustand persist
 
